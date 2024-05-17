@@ -67,7 +67,7 @@ public class WhiteboardDrawing : MonoBehaviour
             }
 
             _texture.Apply();
-            
+
             _lastTexturePosition = texturePosition;
         }
 
