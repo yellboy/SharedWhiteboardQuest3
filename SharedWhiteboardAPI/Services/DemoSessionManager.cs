@@ -1,8 +1,7 @@
 ﻿using SharedWhiteboardAPI.Model;
 using System.Drawing;
-using System.Drawing.Text;
 using System.Reflection;
-using System.Resources;
+using Newtonsoft.Json;
 using Point = SharedWhiteboardAPI.Model.Point;
 
 namespace SharedWhiteboardAPI.Services;
@@ -23,34 +22,13 @@ public class DemoSessionManager : SessionManager
     {
         for (var i = 49; i >= 0; i--)
         {
-            var filename = $"SharedWhiteboardAPI.Simulation.Board{i:00}.png";
+            var filename = $"./Simulation/Board{i:00}.json";
 
-            using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(filename);
-            
-            if (stream == null)
-            {
-                throw new FileNotFoundException("Embedded resource not found.");
-            }
+            var whiteboard = JsonConvert.DeserializeObject<Whiteboard>(File.ReadAllText(filename));
 
-            var bitmap = new Bitmap(stream);
-            var coloredPixels = new List<Point>();
-            for (var x = 0; x < bitmap.Width; x++)
-            {
-                for (var y = 0; y < bitmap.Height; y++)
-                {
-                    var pixel = bitmap.GetPixel(x, y);
-                    if (pixel.ToArgb() != Color.White.ToArgb())
-                    {
-                        coloredPixels.Add(new Point { X = x, Y = bitmap.Height - y });
-                    }
-                }
-            }
-
-            _whiteboards.Add(new Whiteboard
-            {
-                ColoredPoints = coloredPixels
-            });
+            _whiteboards.Add(whiteboard!);
         }
+
     }
 
     public override IEnumerable<Whiteboard> GetWhiteboardsOfOtherParticipants(string sessionId, string participantId)
