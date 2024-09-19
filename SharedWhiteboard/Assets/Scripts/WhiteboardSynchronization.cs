@@ -30,7 +30,7 @@ namespace Assets.Scripts
 
             while (true)
             {
-                using (var request = UnityWebRequest.Get($"https://localhost:44342/api/Whiteboard?sessionId={_sessionHandler.SessionId}&participantId={_sessionHandler.ParticipantId}"))
+                using (var request = UnityWebRequest.Get($"{Configuration.Instance.BackendUrl}/api/Whiteboard?sessionId={_sessionHandler.SessionId}&participantId={_sessionHandler.ParticipantId}"))
                 {
                     yield return request.SendWebRequest();
 

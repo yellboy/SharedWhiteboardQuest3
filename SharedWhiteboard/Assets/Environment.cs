@@ -2,6 +2,7 @@
 {
     public enum Environment
     {
+        Dev,
         Local,
         Prod
     }

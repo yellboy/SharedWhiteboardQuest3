@@ -21,7 +21,7 @@ namespace Assets.Scripts
 
         private IEnumerator Initialize()
         {
-            using (var sessionRequest = UnityWebRequest.Get("https://localhost:44342/api/Session"))
+            using (var sessionRequest = UnityWebRequest.Get($"{Configuration.Instance.BackendUrl}/api/Session"))
             {
                 sessionRequest.certificateHandler = new IgnoreCertificateHandler();
                 yield return sessionRequest.SendWebRequest();
@@ -34,7 +34,7 @@ namespace Assets.Scripts
                 SessionId = sessionRequest.downloadHandler.text;
             }
 
-            using var joinSessionRequest = UnityWebRequest.Get($"https://localhost:44342/api/Participant?sessionId={SessionId}");
+            using var joinSessionRequest = UnityWebRequest.Get($"{Configuration.Instance.BackendUrl}/api/Participant?sessionId={SessionId}");
 
             joinSessionRequest.certificateHandler = new IgnoreCertificateHandler();
             yield return joinSessionRequest.SendWebRequest();
